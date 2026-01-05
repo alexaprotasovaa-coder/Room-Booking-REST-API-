@@ -1,21 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Swagger UI</title>
-    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
-  </head>
-  <body>
-    <div id="swagger-ui"></div>
-    <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
-    <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
-    <script>
-      const ui = SwaggerUIBundle({
-        url: "swagger/openapi.yaml",
-        dom_id: '#swagger-ui',
-        presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-        layout: "StandaloneLayout"
-      });
-    </script>
-  </body>
-</html>
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 1.0.0
+  description: Минимальная документация для портфолио
+servers:
+  - url: https://api.example.com
+paths:
+  /ping:
+    get:
+      summary: Проверка сервера
+      description: Возвращает "pong"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: pong
+  /users:
+    get:
+      summary: Получить список пользователей
+      responses:
+        '200':
+          description: Список пользователей
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Alice"
