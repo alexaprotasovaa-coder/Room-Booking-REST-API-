@@ -93,12 +93,6 @@
       </div>
     </div>
 
-
-  
-
-  </body>
-</html>
-
 <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
   <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
 
@@ -111,37 +105,41 @@
     ],
     layout: "BaseLayout"
   });
-</script>
-
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-  <script>
-    const pages = document.querySelectorAll('.page');
-    const buttons = document.querySelectorAll('.tabs button');
-
-    function showPage(id) {
-      pages.forEach(p => p.style.display = 'none');
-      buttons.forEach(b => b.classList.remove('active'));
-      const page = document.getElementById(id);
-      page.style.display = 'block';
-      document.querySelector(`.tabs button[onclick="showPage('${id}')"]`).classList.add('active');
-
-      // Load Markdown only if it is a document
-      if (id.startsWith('doc') && !page.dataset.loaded) {
-      fetch(`docs/${id}.md`)
-          .then(res => {
-            if (!res.ok) throw new Error(res.status);
-            return res.text();
-          })
-          .then(md => {
-            console.log("Loaded markdown:", md);
-            page.innerHTML = marked.parse(md);
-          })
-          .catch(err => {
-           page.innerHTML = `<pre>Load error: ${err}</pre>`;
-          });
-        }
-      }
-
-    showPage('doc');
   </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+      const pages = document.querySelectorAll('.page');
+      const buttons = document.querySelectorAll('.tabs button');
+
+      function showPage(id) {
+        pages.forEach(p => p.style.display = 'none');
+        buttons.forEach(b => b.classList.remove('active'));
+        
+        const page = document.getElementById(id);
+        page.style.display = 'block';
+        document.querySelector(`.tabs button[onclick="showPage('${id}')"]`).classList.add('active');
+
+        // Load Markdown only if it is a document
+        if (id.startsWith('doc') && !page.dataset.loaded) {
+        fetch(`docs/${id}.md`)
+            .then(res => {
+              if (!res.ok) throw new Error(res.status);
+              return res.text();
+            })
+            .then(md => {
+              console.log("Loaded markdown:", md);
+              page.innerHTML = marked.parse(md);
+            })
+            .catch(err => {
+            page.innerHTML = `<pre>Load error: ${err}</pre>`;
+            });
+          }
+        }
+
+      showPage('doc');
+    </script>
+
+  </body>
+</html>
