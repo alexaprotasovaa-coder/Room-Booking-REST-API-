@@ -123,7 +123,7 @@
       fetch(`docs/${id}.md`)
           .then(res => res.text())
           .then(md => {
-            page.innerHTML = marked.parse(md);
+            page.innerHTML = marked(md);
             page.dataset.loaded = "true"; // to avoid reloading
           });
         }
