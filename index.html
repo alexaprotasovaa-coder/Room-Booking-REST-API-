@@ -124,11 +124,16 @@
       // Load Markdown only if it is a document
       if (id.startsWith('doc') && !page.dataset.loaded) {
       fetch(`docs/${id}.md`)
-          .then(res => res.text())
+          .then(res => {
+            if (!res.ok) throw new Error(res.status);
+            return res.text();
+          })
           .then(md => {
-            page.innerHTML = marked.parse(md);
-            page.dataset.loaded = "true"; // to avoid reloading
-          });
+          page.innerHTML = marked.parse(md);
+          })
+  .catch(err => {
+    page.innerHTML = `<pre>Ошибка загрузки: ${err}</pre>`;
+  });
         }
       }
 
