@@ -102,9 +102,11 @@
 <body>
   
     <!-- Swagger UI in header -->
-    <header>
-      <div id="swagger-ui"></div>
-    </header>
+    header {
+      width: 100%;
+      height: auto; /* либо 400px */
+      border-bottom: 1px solid #ccc;
+    }
 
     <!-- Main container -->
     <div class="container">
@@ -126,9 +128,10 @@
     url: "swagger/openapi.yaml",
     dom_id: "#swagger-ui",
     presets: [
-      SwaggerUIBundle.presets.apis
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
     ],
-    layout: "BaseLayout"
+    layout: "StandaloneLayout"
   });
   </script>
 
