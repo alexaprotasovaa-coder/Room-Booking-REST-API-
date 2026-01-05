@@ -129,7 +129,8 @@
             return res.text();
           })
           .then(md => {
-          page.innerHTML = marked.parse(md);
+            console.log("Loaded markdown:", md);
+            page.innerHTML = marked.parse(md);
           })
   .catch(err => {
     page.innerHTML = `<pre>Load error: ${err}</pre>`;
