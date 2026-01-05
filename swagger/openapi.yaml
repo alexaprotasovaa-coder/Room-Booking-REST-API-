@@ -2,15 +2,4 @@ openapi: 3.0.0
 info:
   title: Room Booking REST API
   version: 1.0.0
-paths:
-  /ping:
-    get:
-      summary: Designing a REST API for a meeting room booking system with support for:
-      description: >
-        - automatic resource selection
-        - time conflicts
-        - booking priorities
-        - idempotent requests
-      responses:
-        '200':
-          description: OK
+paths: {}
