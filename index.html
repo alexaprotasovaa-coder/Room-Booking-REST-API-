@@ -80,35 +80,36 @@
       <button onclick="showPage('doc2')">Doc 2</button>
     </div>
     <div class="content">
-      <div id="doc" class="page">Doc content</div>
-      <div id="doc2" class="page">Doc 2 content</div>
+      <div id="doc" class="page"></div>
+      <div id="doc2" class="page"></div>
     </div>
   </div>
 
-  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
-  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
-  <script>
-    // Initialize Swagger UI only in the header
-    SwaggerUIBundle({
-      url: "swagger/openapi.yaml",
-      dom_id: '#swagger-ui',
-      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-      layout: "StandaloneLayout"
-    });
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    // Tabs
+  <script>
     const pages = document.querySelectorAll('.page');
     const buttons = document.querySelectorAll('.tabs button');
 
     function showPage(id) {
       pages.forEach(p => p.style.display = 'none');
       buttons.forEach(b => b.classList.remove('active'));
-      document.getElementById(id).style.display = 'block';
+      const page = document.getElementById(id);
+      page.style.display = 'block';
       document.querySelector(`.tabs button[onclick="showPage('${id}')"]`).classList.add('active');
-    }
 
-    // By default, we show the first document.
+      // Load Markdown only if it is a document
+      if (id.startsWith('doc') && !page.dataset.loaded) {
+      fetch(`docs/${id}.md`)
+          .then(res => res.text())
+          .then(md => {
+            page.innerHTML = marked(md);
+            page.dataset.loaded = "true"; // to avoid reloading
+          });
+        }
+      }
+
     showPage('doc1');
-  </script>
-</body>
+    </script>
+  
 </html>
