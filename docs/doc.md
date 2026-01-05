@@ -1,3 +1,2 @@
-*** Markdown doc ***
-
 ** hello world! **
+*** Markdown doc ***
