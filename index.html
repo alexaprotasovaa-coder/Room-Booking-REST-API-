@@ -132,7 +132,7 @@
           page.innerHTML = marked.parse(md);
           })
   .catch(err => {
-    page.innerHTML = `<pre>Ошибка загрузки: ${err}</pre>`;
+    page.innerHTML = `<pre>Load error: ${err}</pre>`;
   });
         }
       }
