@@ -1,80 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    
-    <meta charset="UTF-8" />
-    <title>Swagger UI Portfolio</title>
-    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
-    
-    <style>
-    
-      body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        font-family: sans-serif;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <title>Swagger UI Portfolio</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: sans-serif;
+    }
 
-      .container {
-        display: flex;
-        height: 100vh;
-      }
+    header {
+      width: 100%;
+      height: 200px;
+      border-bottom: 1px solid #ccc;
+    }
 
-      .tabs {
-        width: 200px;
-        border-right: 1px solid #ccc;
-        background: #f7f7f7;
-        display: flex;
-        flex-direction: column;
-      }
+    #swagger-ui {
+      height: 100%;
+    }
 
-      .tabs button {
-        padding: 15px;
-        border: none;
-        background: none;
-        text-align: left;
-        width: 100%;
-        cursor: pointer;
-        border-bottom: 1px solid #ddd;
-        font-size: 16px;
-      }
+    .container {
+      display: flex;
+      height: calc(100vh - 200px); /* остальная высота под контент */
+    }
 
-      .tabs button:hover {
-        background-color: #e0e0e0;
-      }
+    .tabs {
+      width: 200px;
+      border-right: 1px solid #ccc;
+      background: #f7f7f7;
+      display: flex;
+      flex-direction: column;
+    }
 
-      .tabs button.active {
-        background-color: #d0d0d0;
-        font-weight: bold;
-      }
+    .tabs button {
+      padding: 15px;
+      border: none;
+      background: none;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      border-bottom: 1px solid #ddd;
+      font-size: 16px;
+    }
 
-      .content {
-        flex: 1;
-        overflow: auto;
-        padding: 20px;
+    .tabs button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .tabs button.active {
+      background-color: #d0d0d0;
+      font-weight: bold;
+    }
+
+    .content {
+      flex: 1;
+      overflow: auto;
+      padding: 20px;
+    }
+
+    .page {
+      display: none;
     }
   </style>
-  </head>
-  <body>
+</head>
+<body>
+
+  <!-- Swagger UI в header -->
+  <header>
     <div id="swagger-ui"></div>
-    <div class="container">
+  </header>
+
+  <!-- Основной контейнер -->
+  <div class="container">
     <div class="tabs">
-    <div style="display: flex; height: 100vh;">
-    <div style="width: 200px; border-right: 1px solid #ccc; padding: 10px;">
       <button onclick="showPage('doc1')">Doc 1</button>
       <button onclick="showPage('doc2')">Doc 2</button>
-      <button onclick="showPage('swagger')">Swagger UI</button>
-     <div id="content" style="flex: 1; overflow: auto; padding: 20px;">
-       <div id="doc1" class="page">Doc 1 content</div>
-       <div id="doc2" class="page" style="display:none;">Doc 2 content</div>
-      </div>
-  </body>
-</html>
+    </div>
+    <div class="content">
+      <div id="doc1" class="page">Doc 1 content</div>
+      <div id="doc2" class="page">Doc 2 content</div>
+    </div>
+  </div>
 
-       
   <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
   <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
   <script>
+    // Инициализация Swagger UI только в header
+    SwaggerUIBundle({
+      url: "swagger/openapi.yaml",
+      dom_id: '#swagger-ui',
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+      layout: "StandaloneLayout"
+    });
+
+    // Табс
     const pages = document.querySelectorAll('.page');
     const buttons = document.querySelectorAll('.tabs button');
 
@@ -83,17 +105,10 @@
       buttons.forEach(b => b.classList.remove('active'));
       document.getElementById(id).style.display = 'block';
       document.querySelector(`.tabs button[onclick="showPage('${id}')"]`).classList.add('active');
-
-      if (id === 'swagger' && !window.ui) {
-        window.ui = SwaggerUIBundle({
-          url: "swagger/openapi.yaml",
-          dom_id: '#swagger-ui',
-          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-          layout: "StandaloneLayout"
-        });
-      }
     }
 
-    // Displaying the default first page
+    // По умолчанию показываем первый документ
     showPage('doc1');
   </script>
+</body>
+</html>
