@@ -68,19 +68,19 @@
 </head>
 <body>
 
-  <!-- Swagger UI в header -->
+  <!-- Swagger UI in header -->
   <header>
     <div id="swagger-ui"></div>
   </header>
 
-  <!-- Основной контейнер -->
+  <!-- Main container -->
   <div class="container">
     <div class="tabs">
-      <button onclick="showPage('doc1')">Doc 1</button>
+      <button onclick="showPage('doc')">Doc</button>
       <button onclick="showPage('doc2')">Doc 2</button>
     </div>
     <div class="content">
-      <div id="doc1" class="page">Doc 1 content</div>
+      <div id="doc" class="page">Doc content</div>
       <div id="doc2" class="page">Doc 2 content</div>
     </div>
   </div>
@@ -88,7 +88,7 @@
   <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
   <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
   <script>
-    // Инициализация Swagger UI только в header
+    // Initialize Swagger UI only in the header
     SwaggerUIBundle({
       url: "swagger/openapi.yaml",
       dom_id: '#swagger-ui',
@@ -96,7 +96,7 @@
       layout: "StandaloneLayout"
     });
 
-    // Табс
+    // Tabs
     const pages = document.querySelectorAll('.page');
     const buttons = document.querySelectorAll('.tabs button');
 
@@ -107,7 +107,7 @@
       document.querySelector(`.tabs button[onclick="showPage('${id}')"]`).classList.add('active');
     }
 
-    // По умолчанию показываем первый документ
+    // By default, we show the first document.
     showPage('doc1');
   </script>
 </body>
