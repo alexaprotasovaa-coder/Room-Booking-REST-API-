@@ -5,162 +5,85 @@
   <title>Room Booking REST API</title>
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
   <style>
+    /* Markdown styles */
     .markdown-body h1 { font-size: 2em; font-weight: bold; margin-bottom: 0.5em; }
     .markdown-body p { margin-bottom: 1em; line-height: 1.5; }
     .markdown-body ul, .markdown-body ol { padding-left: 1.5em; margin-bottom: 1em; }
     .markdown-body li { margin-bottom: 0.3em; }
 
-    .markdown-body p {
-        margin-bottom: 1em;
-    }
+    body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; }
 
-    .markdown-body ul,
-    .markdown-body ol {
-        margin: 1em 0;
-        padding-left: 2em;
-    }
+    header { width: 100%; height: 200px; border-bottom: 1px solid #ccc; }
+    #swagger-ui { height: 100%; }
 
-    .markdown-body li {
-        margin-bottom: 0.5em;
-    }
+    .container { display: flex; height: calc(100vh - 200px); }
+    .tabs { width: 200px; border-right: 1px solid #ccc; background: #f7f7f7; display: flex; flex-direction: column; }
+    .tabs button { padding: 15px; border: none; background: none; text-align: left; width: 100%; cursor: pointer; border-bottom: 1px solid #ddd; font-size: 16px; }
+    .tabs button:hover { background-color: #e0e0e0; }
+    .tabs button.active { background-color: #d0d0d0; font-weight: bold; }
 
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: sans-serif;
-    }
-
-    header {
-      width: 100%;
-      height: 200px;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .swagger-ui .info .base-url {
-      display: none;
-    }
-
-    #swagger-ui {
-      height: 100%;
-    }
-
-    .swagger-ui .information-container,
-    .swagger-ui .opblock {
-      display: none;
-    }
-
-    .container {
-      display: flex;
-      height: calc(100vh - 200px); 
-    }
-
-    .tabs {
-      width: 200px;
-      border-right: 1px solid #ccc;
-      background: #f7f7f7;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .tabs button {
-      padding: 15px;
-      border: none;
-      background: none;
-      text-align: left;
-      width: 100%;
-      cursor: pointer;
-      border-bottom: 1px solid #ddd;
-      font-size: 16px;
-    }
-
-    .tabs button:hover {
-      background-color: #e0e0e0;
-    }
-
-    .tabs button.active {
-      background-color: #d0d0d0;
-      font-weight: bold;
-    }
-
-    .page {
-      display: none;
-      width: 100%;
-      height: 100%;
-    }
-    .content {
-      flex: 1;
-      overflow: auto;
-      padding: 20px;
-    }
+    .content { flex: 1; overflow: auto; padding: 20px; }
+    .page { display: none; }
   </style>
 </head>
 <body>
-  
-    <header>
-      <div id="swagger-ui"></div>
-    </header>
 
-    <!-- Main container -->
-    <div class="container">
-      <div class="tabs">
-        <button onclick="showPage('doc')">Doc</button>
-        <button onclick="showPage('doc2')">Doc 2</button>
-      </div>
-      <div class="content">
-          <div id="doc" class="page markdown-body"></div>
-          <div id="doc2" class="page markdown-body"></div>
-        </div>
+  <!-- Correct header with Swagger UI -->
+  <header>
+    <div id="swagger-ui"></div>
+  </header>
+
+  <!-- Main container -->
+  <div class="container">
+    <div class="tabs">
+      <button onclick="showPage('doc')">Doc</button>
+      <button onclick="showPage('doc2')">Doc 2</button>
     </div>
+    <div class="content">
+      <div id="doc" class="page markdown-body"></div>
+      <div id="doc2" class="page markdown-body"></div>
+    </div>
+  </div>
 
-<script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+  <!-- Scripts -->
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
   <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
-
   <script>
-  SwaggerUIBundle({
-    url: "swagger/openapi.yaml",
-    dom_id: "#swagger-ui",
-    presets: [
-      SwaggerUIBundle.presets.apis,
-      SwaggerUIStandalonePreset
-    ],
-    layout: "StandaloneLayout"
-  });
+    // Initialize Swagger UI once
+    window.ui = SwaggerUIBundle({
+      url: "swagger/openapi.yaml",
+      dom_id: "#swagger-ui",
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+      layout: "StandaloneLayout"
+    });
   </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const pages = document.querySelectorAll('.page');
+    const buttons = document.querySelectorAll('.tabs button');
 
-    <script>
-      const pages = document.querySelectorAll('.page');
-      const buttons = document.querySelectorAll('.tabs button');
+    function showPage(id) {
+      pages.forEach(p => p.style.display = 'none');
+      buttons.forEach(b => b.classList.remove('active'));
 
-      function showPage(id) {
-        pages.forEach(p => p.style.display = 'none');
-        buttons.forEach(b => b.classList.remove('active'));
-        
-        const page = document.getElementById(id);
-        page.style.display = 'block';
-        document.querySelector(`.tabs button[onclick="showPage('${id}')"]`).classList.add('active');
+      const page = document.getElementById(id);
+      page.style.display = 'block';
+      document.querySelector(`.tabs button[onclick="showPage('${id}')"]`).classList.add('active');
 
-        // Load Markdown only if it is a document
-        if (id.startsWith('doc') && !page.dataset.loaded) {
+      if (id.startsWith('doc') && !page.dataset.loaded) {
         fetch(`docs/${id}.md`)
-            .then(res => {
-              if (!res.ok) throw new Error(res.status);
-              return res.text();
-            })
-            .then(md => {
-              console.log("Loaded markdown:", md);
-              page.innerHTML = marked.parse(md);
-            })
-            .catch(err => {
-            page.innerHTML = `<pre>Load error: ${err}</pre>`;
-            });
-          }
-        }
+          .then(res => {
+            if (!res.ok) throw new Error(res.status);
+            return res.text();
+          })
+          .then(md => { page.innerHTML = marked.parse(md); page.dataset.loaded = "true"; })
+          .catch(err => { page.innerHTML = `<pre>Load error: ${err}</pre>`; });
+      }
+    }
 
-      showPage('doc');
-    </script>
+    showPage('doc'); // show first tab
+  </script>
 
-  </body>
+</body>
 </html>
