@@ -3,12 +3,10 @@ info:
   title: Room Booking REST API
   version: 1.0.0
   description: |
-  API for managing meeting room bookings in the office, taking into account:
-  - capacity
-  - equipment
-  - time conflicts
-  - team priorities
-  - flexible cancellation rules
-servers:
-  - url: https://api.example.com
+    API for managing meeting room bookings in the office, taking into account:
+    - capacity
+    - equipment
+    - time conflicts
+    - team priorities
+    - flexible cancellation rules
   
