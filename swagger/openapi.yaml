@@ -1,42 +1,13 @@
 openapi: 3.0.0
 info:
-  title: Sample API
+  title: Room Booking REST API
   version: 1.0.0
-  description: Минимальная документация для портфолио
+  description: API for managing meeting room bookings in the office, taking into account:
+  - capacity
+  - equipment
+  - time conflicts
+  - team priorities
+  - flexible cancellation rules
 servers:
   - url: https://api.example.com
-paths:
-  /ping:
-    get:
-      summary: Проверка сервера
-      description: Возвращает "pong"
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: pong
-  /users:
-    get:
-      summary: Получить список пользователей
-      responses:
-        '200':
-          description: Список пользователей
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    name:
-                      type: string
-                      example: "Alice"
+  
