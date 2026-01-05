@@ -105,30 +105,30 @@
     });
   </script>
 
-   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <script>
-      const pages = document.querySelectorAll('.page');
-      const buttons = document.querySelectorAll('.tabs button');
+  <script>
+    const pages = document.querySelectorAll('.page');
+    const buttons = document.querySelectorAll('.tabs button');
 
-      function showPage(id) {
-        pages.forEach(p => p.style.display = 'none');
-        buttons.forEach(b => b.classList.remove('active'));
-        const page = document.getElementById(id);
-        page.style.display = 'block';
-        document.querySelector(`.tabs button[onclick="showPage('${id}')"]`).classList.add('active');
+    function showPage(id) {
+      pages.forEach(p => p.style.display = 'none');
+      buttons.forEach(b => b.classList.remove('active'));
+      const page = document.getElementById(id);
+      page.style.display = 'block';
+      document.querySelector(`.tabs button[onclick="showPage('${id}')"]`).classList.add('active');
 
-        // Load Markdown only if it is a document
-        if (id.startsWith('doc') && !page.dataset.loaded) {
-        fetch(`docs/${id}.md`)
-            .then(res => res.text())
-            .then(md => {
-              page.innerHTML = marked(md);
-              page.dataset.loaded = "true"; // to avoid reloading
-            });
-          }
+      // Load Markdown only if it is a document
+      if (id.startsWith('doc') && !page.dataset.loaded) {
+      fetch(`docs/${id}.md`)
+          .then(res => res.text())
+          .then(md => {
+            page.innerHTML = marked.parse(md);
+            page.dataset.loaded = "true"; // to avoid reloading
+          });
         }
+      }
 
-      showPage('doc');
-    </script>
+    showPage('doc');
+  </script>
 </html>
