@@ -44,5 +44,25 @@
       }
     });
   </script>
+  <script>
+    SwaggerUIBundle({
+    url: "swagger.yaml",
+    dom_id: "#swagger-ui",
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIBundle.SwaggerUIStandalonePreset
+    ],
+    layout: "StandaloneLayout",
+    onComplete: () => {
+      document
+        .querySelectorAll(
+          ".swagger-ui .markdown, \
+          .swagger-ui .renderedMarkdown, \
+          .swagger-ui .opblock-description-wrapper"
+        )
+        .forEach(el => el.classList.add("markdown-body"));
+      }
+    });
+  </script>
 </body>
 </html>
