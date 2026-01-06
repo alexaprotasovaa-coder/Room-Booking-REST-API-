@@ -59,6 +59,16 @@
       presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
       layout: "StandaloneLayout"
     });
+    const ui = SwaggerUIBundle({
+      url: "swagger.json",
+      dom_id: "#swagger-ui",
+      presets: [SwaggerUIBundle.presets.apis],
+      onComplete: function() {
+        document.querySelectorAll('.opblock-description-wrapper').forEach(el => {
+          el.classList.add('markdown-body');
+        });
+      }
+    });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
